@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 class ToDoTaskAdd extends React.Component {
@@ -46,10 +47,10 @@ class ToDoTaskAdd extends React.Component {
 		}).then((res) => {
 			return res.json()
 		}).then((data) => {
-			debugger;
 			console.log('Added');
-			console.log(data);
 			this.props.onTaskAdd(data);
+			const navigate = useNavigate();
+			navigate('/');
 		});
 	}
 	

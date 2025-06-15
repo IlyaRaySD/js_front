@@ -1,9 +1,8 @@
 import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import ToDoList from './ToDoList';
+import ToDoTask from './ToDoTask';
 import ToDoTaskAdd from './ToDoTaskAdd';
 
-class App extends React.Component {
+class ToDoList extends React.Component {
 	constructor(props){
 		super(props);
 		
@@ -13,6 +12,16 @@ class App extends React.Component {
 		
 		this.onTaskDelete = this.onTaskDelete.bind(this);
 		this.onTaskAdd = this.onTaskAdd.bind(this);
+	}
+	
+	componentDidMount(){
+		fetch('tasks').then(function(res){
+			return res.json();
+		}).then((data) => {
+			this.setState({
+				tasks: data
+			});
+		});
 	}
 	
 	onTaskAdd(task){
@@ -31,16 +40,19 @@ class App extends React.Component {
 	
 	render(){
 		return (
-			<div className="App">
-				<Router>
-					<Routes>
-						<Route path="/" element={<ToDoList tasks={this.state.tasks} onTaskDelete={this.onTaskDelete} />} />
-						<Route path="/add" element={<ToDoTaskAdd onTaskAdd={this.onTaskAdd} />} />
-					</Routes>
-				</Router>
+			<div className="List">
+				<ul>
+				{
+					this.state.tasks.map((task) => {
+						return (
+							<ToDoTask task={task} onTaskDelete={this.onTaskDelete} key={task._id} />
+						)
+					})
+				}
+				</ul>
 			</div>
 		);
 	}
 }
 
-export default App;
+export default ToDoList;

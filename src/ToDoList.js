@@ -7,7 +7,7 @@ class ToDoList extends React.Component {
 	render(){
 		return (
 			<div className="App">
-				<NavLink to='/add'б className='add-task-btn'>
+				<NavLink to='/add' className='add-task-btn'>
 					Add achivement
 				</NavLink>
 				<ul>

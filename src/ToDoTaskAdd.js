@@ -1,5 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { todoAdd } from './actions';
 
 class ToDoTaskAddInner extends React.Component {
 	constructor(props){
@@ -46,19 +48,23 @@ class ToDoTaskAddInner extends React.Component {
 		}).then((res) => {
 			return res.json()
 		}).then((data) => {
-			console.log('Added');
-			this.props.onTaskAdd(data);
+			this.props.dispatch(todoAdd(data._id, data.name, data.description))
 			this.props.history('/');
 		});
 	}
 	
 	render(){
 		return (
-			<form onSubmit={this.onAddFormSubmit}>
-				<input type="text" value={this.state.name} onChange={this.onNameChange} placeholder="Name" />
-				<input type="text" value={this.state.description} onChange={this.onDescriptionChange} placeholder="Description" />
-				<input type="submit" value="Add" />
-			</form>
+			<div className="Add">
+				<NavLink to="/" className="back-btn" aria-label="Go back">
+					<i className="fas fa-arrow-left"></i>
+				</NavLink>
+				<form onSubmit={this.onAddFormSubmit}>
+					<input type="text" value={this.state.name} onChange={this.onNameChange} placeholder="Title" />
+					<input type="text" value={this.state.description} onChange={this.onDescriptionChange} placeholder="Description" />
+					<input type="submit" value="Add" />
+				</form>
+			</div>
 		)
 	}
 }
@@ -69,4 +75,4 @@ const ToDoTaskAdd = (props) => {
 	)
 }
 
-export default ToDoTaskAdd;
+export default connect()(ToDoTaskAdd);
